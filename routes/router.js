@@ -59,11 +59,10 @@ router.post("/add-person", (req, res) => {
       });
   });
  //Edit then save
-  router.post("/id/:id", (req, res) => {
-    const foodToAdd = "hamburger";
+  router.post("/edit/:id", (req, res) => {
     Person.findById({_id:req.params.id}, (err, person) => {
       if (err) return console.log(err);
-      person.favoriteFoods.push(foodToAdd);
+      person.favoriteFoods.push(req.body.favoriteFoods);
       person
         .save()
         .then((result) => {
@@ -76,8 +75,7 @@ router.post("/add-person", (req, res) => {
   });
   //find and update
   router.put("/:name", (req, res) => {
-    const ageToSet = 20;
-    Person.findOneAndUpdate({ name: req.params.name }, { age: ageToSet }, { new: true })
+    Person.findOneAndUpdate({ name: req.params.name }, { age: req.body.age }, { new: true })
       .then((result) => {
         res.send(result);
       })
